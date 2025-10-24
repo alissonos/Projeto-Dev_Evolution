@@ -1,0 +1,15 @@
+{
+  "name": "alisson/projeto_dev_evolution",
+  "description": "Projeto Prático Dev_Evolution_IXC",
+  "autoload": {
+    "psr-4": {
+      "src\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Álisson Silva"
+    }
+  ],
+  "require": {}
+}

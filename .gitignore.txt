@@ -1,0 +1,3 @@
+# Ignorar arquivos de cache (se houver)
+*.log
+*.cache
