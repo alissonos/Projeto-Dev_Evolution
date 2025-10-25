@@ -16,14 +16,17 @@ class ProdutosRepository
 
     public function inserir(array $dados): bool
     {
-        $sql = 'INSERT INTO produtos (id, nome, descricao, preco, quantidade) 
-                VALUES (:id, :nome, :descricao, preco, quantidade)';
+        $sql = 'INSERT INTO produtos (clienteId, nome, descricao, preco, quantidade) 
+            VALUES (:clienteId, :nome, :descricao, :preco, :quantidade)';
+
         $stmt = $this->pdo->prepare($sql);
 
         return $stmt->execute([
-            ':id' => $dados['id'],
+            ':clienteId' => $dados['clienteId'],
             ':nome' => $dados['nome'],
-            ':descricao, preco, quantidade' => $dados['descricao, preco, quantidade'] ?? null
+            ':descricao' => $dados['descricao'] ?? null,
+            ':preco' => $dados['preco'],
+            ':quantidade' => $dados['quantidade']
         ]);
     }
 

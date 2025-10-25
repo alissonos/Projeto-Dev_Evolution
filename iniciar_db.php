@@ -7,44 +7,15 @@ use src\Infrastructure\Database;
 try {
     $pdo = Database::getInstance();
 
-    echo 'Conexão com o banco de dados estabelecida com sucesso.<br>';
+    echo 'Conexão com o banco de dados estabelecida com sucesso.' . PHP_EOL;
 
-    // 1. DEFINE O SQL PARA CRIAR A TABELA 'Cliente'
-    $sqlCreateCliente = '
-        CREATE TABLE IF NOT EXISTS cliente (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome TEXT NOT NULL,
-            email TEXT UNIQUE NOT NULL, -- Adicionei UNIQUE ao email, é boa prática
-            telefone TEXT,
-            endereco TEXT
-        );
-    ';
+    $pdo->exec('PRAGMA foreign_keys = ON;');
 
-    // 2. DEFINE O SQL PARA CRIAR A TABELA 'Compras'
-    $sqlCreateCompras = '
-        CREATE TABLE IF NOT EXISTS compras (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            clienteId INTEGER NOT NULL,
-            produtoId INTEGER NOT NULL,
-            quantidade INTEGER NOT NULL,
-            dataCompra TEXT NOT NULL,
-            FOREIGN KEY (clienteId) REFERENCES cliente(id) 
-            -- CORRIGIDO: Removida a vírgula extra aqui ^
-        );
-    ';
+    $pdo->exec('DROP TABLE IF EXISTS compras;');
+    $pdo->exec('DROP TABLE IF EXISTS produtos;');
+    $pdo->exec('DROP TABLE IF EXISTS clientes;');
+    $pdo->exec('DROP TABLE IF EXISTS usuarios;');
 
-    // 3. DEFINE O SQL PARA CRIAR A TABELA 'Produtos'
-    $sqlCreateProdutos = '
-        CREATE TABLE IF NOT EXISTS produtos (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome TEXT NOT NULL,
-            descricao TEXT,
-            preco REAL NOT NULL,
-            quantidade INTEGER NOT NULL
-        );
-    ';
-
-    // 4. DEFINE O SQL PARA CRIAR A TABELA 'Usuarios'
     $sqlCreateUsuarios = '
         CREATE TABLE IF NOT EXISTS usuarios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -54,13 +25,49 @@ try {
             fullName TEXT NOT NULL
         );
     ';
-    // EXECUTA OS COMANDOS DE CRIAÇÃO DAS TABELAS
-    $pdo->exec($sqlCreateCliente);
-    $pdo->exec($sqlCreateCompras);
-    $pdo->exec($sqlCreateProdutos);
-    $pdo->exec($sqlCreateUsuarios);
 
-    echo "Tabelas 'cliente', 'compras', 'produtos' e 'usuarios' criadas/verificadas com sucesso.<br>";
+    $sqlCreateclientes = '
+        CREATE TABLE IF NOT EXISTS clientes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            usuarioId INTEGER NOT NULL,
+            nome TEXT NOT NULL,
+            email TEXT UNIQUE NOT NULL,
+            telefone TEXT,
+            endereco TEXT,
+            FOREIGN KEY (usuarioId) REFERENCES usuarios(id)
+        );
+    ';
+
+    $sqlCreateProdutos = '
+        CREATE TABLE IF NOT EXISTS produtos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            clienteId INTEGER NOT NULL, 
+            nome TEXT NOT NULL,
+            descricao TEXT,
+            preco REAL NOT NULL,
+            quantidade INTEGER NOT NULL,
+            FOREIGN KEY (clienteId) REFERENCES clientes(id)
+        );
+    ';
+
+    $sqlCreateCompras = '
+        CREATE TABLE IF NOT EXISTS compras (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            clienteId INTEGER NOT NULL,
+            produtoId INTEGER NOT NULL,
+            quantidade INTEGER NOT NULL,
+            dataCompra TEXT NOT NULL,
+            FOREIGN KEY (clienteId) REFERENCES clientes(id),
+            FOREIGN KEY (produtoId) REFERENCES produtos(id)
+        );
+    ';
+
+    $pdo->exec($sqlCreateUsuarios);
+    $pdo->exec($sqlCreateclientes);
+    $pdo->exec($sqlCreateProdutos);
+    $pdo->exec($sqlCreateCompras);
+
+    echo "Tabelas 'usuarios', 'clientes', 'produtos' e 'compras' criadas/verificadas com sucesso com as novas chaves estrangeiras." . PHP_EOL;
 } catch (\PDOException $e) {
     echo 'Erro ao inicializar o banco de dados: ' . $e->getMessage();
 }

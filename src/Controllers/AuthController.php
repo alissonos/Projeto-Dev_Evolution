@@ -35,7 +35,7 @@ class AuthController
             $_SESSION['email'] = $usuario['email'];
             $_SESSION['nome'] = $usuario['fullName'];
 
-            header('Location:/dashboard');
+            header('Location: /dashboard');
             exit;
         }
         $error = 'Usuário ou senha inválidos.';

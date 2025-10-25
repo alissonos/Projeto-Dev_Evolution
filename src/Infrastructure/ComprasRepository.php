@@ -15,14 +15,16 @@ class ComprasRepository
 
     public function inserir(array $dados): bool
     {
-        $sql = 'INSERT INTO clientes (id, clienteId, produtoId, quantidade, dataCompra) 
-                VALUES (:id, :clienteId, :produtoId, quantidade, dataCompra)';
+        $sql = 'INSERT INTO compras (clienteId, produtoId, quantidade, dataCompra) 
+            VALUES (:clienteId, :produtoId, :quantidade, :dataCompra)';
+
         $stmt = $this->pdo->prepare($sql);
 
         return $stmt->execute([
-            ':id' => $dados['id'],
             ':clienteId' => $dados['clienteId'],
-            ':produtoId, quantidade, dataCompra' => $dados['produtoId, quantidade, dataCompra'] ?? null
+            ':produtoId' => $dados['produtoId'],
+            ':quantidade' => $dados['quantidade'],
+            ':dataCompra' => $dados['dataCompra']
         ]);
     }
 
