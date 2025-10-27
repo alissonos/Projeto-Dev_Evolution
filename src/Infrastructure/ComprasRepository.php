@@ -15,8 +15,8 @@ class ComprasRepository
 
     public function inserir(array $dados): bool
     {
-        $sql = 'INSERT INTO compras (clienteId, produtoId, quantidade, dataCompra) 
-            VALUES (:clienteId, :produtoId, :quantidade, :dataCompra)';
+        $sql = 'INSERT INTO compras (clienteId, produtoId, quantidade, valorTotal, dataCompra) 
+            VALUES (:clienteId, :produtoId, :quantidade, :valorTotal, :dataCompra)';
 
         $stmt = $this->pdo->prepare($sql);
 
@@ -24,8 +24,45 @@ class ComprasRepository
             ':clienteId' => $dados['clienteId'],
             ':produtoId' => $dados['produtoId'],
             ':quantidade' => $dados['quantidade'],
+            ':valorTotal' => $dados['valorTotal'],
             ':dataCompra' => $dados['dataCompra']
         ]);
+    }
+
+    public function buscarPorId(int $id): ?array
+    {
+        $sql = 'SELECT clienteId, produtoId, quantidade, dataCompra
+                FROM compras 
+                WHERE id = :id';
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':id' => $id]);
+
+        $cliente = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $cliente ?: null;
+    }
+
+    public function buscarPorClienteId(int $clienteId): array
+    {
+        $sql = 'SELECT 
+                c.id AS compraId, 
+                c.produtoId, 
+                c.quantidade AS quantidadeComprada, 
+                c.dataCompra, 
+                c.valorTotal,
+                p.nome AS nomeProduto,
+                p.descricao AS descricaoProduto
+            FROM 
+                compras c
+            INNER JOIN 
+                produtos p ON c.produtoId = p.id
+            WHERE 
+                c.clienteId = :clienteId';
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':clienteId' => $clienteId]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function listar(): array

@@ -29,9 +29,30 @@ class ClientesRepository
         ]);
     }
 
-    public function listar(): array
+    public function buscarTodos(): array
     {
         return $this->findAll();
+    }
+
+    public function contarTodos(): int
+    {
+        $sql = 'SELECT COUNT(*) FROM clientes';
+        $stmt = $this->pdo->query($sql);
+
+        return (int) $stmt->fetchColumn();
+    }
+
+    public function buscarPorId(int $id): ?array
+    {
+        $sql = 'SELECT usuarioId, nome, email, telefone, endereco
+                FROM clientes 
+                WHERE id = :id';
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':id' => $id]);
+
+        $cliente = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $cliente ?: null;
     }
 
     public function atualizar(int $id, array $dados): bool
@@ -60,7 +81,7 @@ class ClientesRepository
 
     public function findAll(): array
     {
-        $sql = 'SELECT id, nome, email, telefone, endereco, data_cadastro 
+        $sql = 'SELECT id, usuarioId, nome, email, telefone, endereco
             FROM clientes ORDER BY id';
         $stmt = $this->pdo->query($sql);
 

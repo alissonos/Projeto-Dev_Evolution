@@ -51,16 +51,17 @@ try {
     ';
 
     $sqlCreateCompras = '
-        CREATE TABLE IF NOT EXISTS compras (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            clienteId INTEGER NOT NULL,
-            produtoId INTEGER NOT NULL,
-            quantidade INTEGER NOT NULL,
-            dataCompra TEXT NOT NULL,
-            FOREIGN KEY (clienteId) REFERENCES clientes(id),
-            FOREIGN KEY (produtoId) REFERENCES produtos(id)
-        );
-    ';
+    CREATE TABLE IF NOT EXISTS compras (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        clienteId INTEGER NOT NULL,
+        produtoId INTEGER NOT NULL,
+        quantidade INTEGER NOT NULL,
+        valorTotal REAL,
+        dataCompra TEXT NOT NULL,
+        FOREIGN KEY (clienteId) REFERENCES clientes(id),
+        FOREIGN KEY (produtoId) REFERENCES produtos(id)
+    );
+';
 
     $pdo->exec($sqlCreateUsuarios);
     $pdo->exec($sqlCreateclientes);

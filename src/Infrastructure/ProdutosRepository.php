@@ -32,10 +32,48 @@ class ProdutosRepository
 
     public function listar(): array
     {
-        $sql = 'SELECT id, id, nome, descricao, preco, quantidade, data_cadastro 
+        $sql = 'SELECT id, nome, descricao, preco, quantidade, data_cadastro 
                 FROM produtos ORDER BY id';
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll();
+    }
+
+    public function buscarPorId(int $id): ?array
+    {
+        $sql = 'SELECT id AS produtoId, clienteId, nome, descricao, preco, quantidade
+             FROM produtos 
+             WHERE id = :id';
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':id' => $id]);
+
+        $produto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $produto ?: null;
+    }
+
+    public function buscarPorClienteId(int $clienteId): array
+    {
+        $sql = 'SELECT id AS produtoId, clienteId, nome, descricao, preco, quantidade
+            FROM produtos 
+            WHERE clienteId = :clienteId';
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':clienteId' => $clienteId]);
+        $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $produtos;
+    }
+
+     public function buscarPrecoPorId(int $produtoId): ?float
+    {
+        $sql = 'SELECT preco FROM produtos WHERE id = :id';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':id' => $produtoId]);
+
+        $preco = $stmt->fetchColumn();
+
+        return $preco !== false ? (float) $preco : null;
     }
 
     public function atualizar(int $id, array $dados): bool

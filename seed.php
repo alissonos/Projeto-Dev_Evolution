@@ -58,9 +58,9 @@ try {
     $clienteRepo = new ClientesRepository($db);
     $dados_cliente = [
         'usuarioId' => $id_usuario,
-        'nome' => 'Bruno Cliente Teste',
-        'email' => 'bruno@cliente.com.br',
-        'telefone' => '11987654321',
+        'nome' => 'Artur Guimarães Oliveira',
+        'email' => 'artur@cliente.com.br',
+        'telefone' => '83993060292',
         'endereco' => 'Rua dos Clientes, 100',
     ];
 
@@ -122,22 +122,43 @@ try {
         }
     }
 
-    // --- 3. INSERIR COMPRAS (Relacionadas ao Cliente e aos Produtos) ---
+    // Seu arquivo de script PHP (Onde você está inserindo os dados)
+
+    // Certifique-se de que os repositórios estão instanciados
+    // $db = Database::getInstance();
+    // $produtosRepo = new ProdutosRepository($db);
     $comprasRepo = new ComprasRepository($db);
 
-    $compras_a_inserir = [
-        [
-            'clienteId' => $id_cliente,
-            'produtoId' => $produtos_ids['Ingresso Curso DEV Evolution'],
-            'quantidade' => 1,
-            'dataCompra' => date('Y-m-d H:i:s'),
-        ],
-        [
-            'clienteId' => $id_cliente,
-            'produtoId' => $produtos_ids['Ingresso Evento Opa Evolution'],
-            'quantidade' => 1,
-            'dataCompra' => date('Y-m-d H:i:s'),
-        ]
+    $produtosRepo = new ProdutosRepository($db);  // Exemplo, ajuste conforme seu código
+    $compras_a_inserir = [];
+
+    $preco_ingresso_dev = $produtosRepo->buscarPrecoPorId($produtos_ids['Ingresso Curso DEV Evolution']);
+    $preco_ingresso_opa = $produtosRepo->buscarPrecoPorId($produtos_ids['Ingresso Evento Opa Evolution']);
+
+    // --- 3. INSERIR COMPRAS (Relacionadas ao Cliente e aos Produtos) ---
+
+    // Primeira Compra: Ingresso Curso DEV Evolution
+    $quantidade_dev = 1;
+    $valor_total_dev = $preco_ingresso_dev * $quantidade_dev;
+
+    $compras_a_inserir[] = [
+        'clienteId' => $id_cliente,
+        'produtoId' => $produtos_ids['Ingresso Curso DEV Evolution'],
+        'quantidade' => $quantidade_dev,
+        'dataCompra' => date('Y-m-d H:i:s'),
+        'valorTotal' => $valor_total_dev,
+    ];
+
+    // Segunda Compra: Ingresso Evento Opa Evolution
+    $quantidade_opa = 1;
+    $valor_total_opa = $preco_ingresso_opa * $quantidade_opa;
+
+    $compras_a_inserir[] = [
+        'clienteId' => $id_cliente,
+        'produtoId' => $produtos_ids['Ingresso Evento Opa Evolution'],
+        'quantidade' => $quantidade_opa,
+        'dataCompra' => date('Y-m-d H:i:s'),
+        'valorTotal' => $valor_total_opa,
     ];
 
     $total_compras = 0;

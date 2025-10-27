@@ -1,49 +1,174 @@
+/* Paleta de Cores Sugerida (Inspirada em "Evolution" ou Dev/Tech)
+   --primary-color: #007bff; (Azul para links e botões)
+   --accent-color: #28a745; (Verde para sucesso/confirmação)
+   --background-light: #f4f7f9;
+   --card-bg: #ffffff;
+   --text-dark: #343a40;
+   --border-light: #e9ecef;
+*/
+
 body {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-  background-color: #f4f4f4;
-  color: #333;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f7f9; /* Fundo suave */
+  color: #343a40; /* Cor principal do texto */
+  margin: 0;
+  padding: 20px;
+  line-height: 1.6;
 }
 
-h1,
-h2 {
-  color: #0056b3;
-  margin-top: 20px;
-  padding-bottom: 5px;
-}
-.logout-button {
-  background-color: #555;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  text-decoration: none;
-  height: 40px;
-  width: 40px;
-}
+/* --- Layout e Container --- */
 
-a {
-  display: flex;
-  justify-content: center;
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* --- Contadores de Seção --- */
-
-h2 {
-  font-size: 1.2em;
-  padding: 8px 0;
-  margin-top: 15px;
-  color: #555;
-}
-
-.header {
+.header-container {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
+  background-color: #ffffff;
+  padding: 20px 30px;
+  border-bottom: 3px solid #007bff; /* Linha primária */
+  margin: -20px -20px 20px -20px; /* Estende a largura */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.header-container h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #343a40;
+}
+
+/* --- Botão de Logout --- */
+
+a[href='/logout'] {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 5px 10px;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+a[href='/logout']:hover {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+/* --- Título Principal da Lista --- */
+
+h1 {
+  color: #343a40;
+  padding-bottom: 10px;
+  margin-top: 30px;
+  font-size: 2rem;
+}
+
+/* --- Cards de Cliente --- */
+
+.cliente-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-bottom: 30px;
+  border-left: 5px solid #28a745; /* Linha de destaque verde */
+}
+
+.cliente-card h3 {
+  margin-top: 0;
+  color: #007bff;
+  font-size: 1.4rem;
+  border-bottom: 1px dotted #e9ecef;
+  margin-bottom: 15px;
+}
+
+.cliente-card h4 {
+  color: #343a40;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+/* Estilos para o Acordeão (Collapse) */
+
+.card-header {
+  cursor: pointer; /* Indica que é clicável */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header h3 {
+  margin: 0; /* Remove margem extra do h3 */
+  color: #007bff;
+  font-size: 1.4rem;
+  border-bottom: none; /* Remove a borda inferior que estava no h3 */
+}
+
+.card-content {
+  /* Transição suave para a abertura/fechamento (melhora a UX) */
+  transition: max-height 0.4s ease-out, opacity 0.4s ease-out,
+    padding 0.4s ease-out;
+  overflow: hidden; /* Importante para o efeito de colapso */
+  max-height: 1000px; /* Valor grande o suficiente para o conteúdo */
+  opacity: 1;
+  padding-top: 10px;
+}
+
+.card-content.hidden {
+  max-height: 0; /* Oculta o conteúdo */
+  opacity: 0;
+  padding-top: 0;
+}
+
+/* Ajuste o cliente-card para remover a linha de destaque que estava no h3 original */
+.cliente-card {
+  /* ... (seus estilos originais) ... */
+  border-left: 5px solid #28a745;
+}
+
+/* --- Lista de Produtos --- */
+
+ul {
+  list-style: disc;
+  padding-left: 20px;
+  margin-top: 0;
+}
+
+ul li {
+  margin-bottom: 5px;
+  color: #5a646c;
+}
+
+/* --- Tabela de Compras --- */
+
+table {
+  border-collapse: collapse; /* Remove espaços duplos na borda */
+  margin-top: 15px;
+  width: 100%;
+}
+
+table th,
+table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #e9ecef; /* Bordas suaves */
+}
+
+table thead tr {
+  background-color: #343a40; /* Cabeçalho escuro */
+  color: white;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #f8f8f8; /* Listras para melhor leitura */
+}
+
+/* Estilo para a linha divisória (hr) */
+.cliente-card hr {
+  border: 0;
+  border-top: 1px solid #e9ecef;
+  margin: 25px 0 0 0;
+}
+
+/* Mensagem de vazio */
+p {
+  color: #6c757d;
 }

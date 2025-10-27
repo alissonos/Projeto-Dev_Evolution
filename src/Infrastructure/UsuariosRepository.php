@@ -31,12 +31,25 @@ class UsuariosRepository
 
     public function listar(): array
     {
-        $sql = 'SELECT id, username, email, fullName, data_cadastro 
+        $sql = 'SELECT id, username, email, fullName
             FROM usuarios ORDER BY id';
 
         $stmt = $this->pdo->query($sql);
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function buscarPorId(int $id_usuario): ?array
+    {
+        $sql = 'SELECT id, username, email, fullName
+                FROM usuarios 
+                WHERE id = :id';
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':id' => $id]);
+
+        $cliente = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $cliente ?: null;
     }
 
     public function atualizar(int $id, array $dados): bool
