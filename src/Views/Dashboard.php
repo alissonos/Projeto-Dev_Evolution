@@ -14,6 +14,7 @@ use src\Infrastructure\ComprasRepository;
 use src\Infrastructure\Database;
 use src\Infrastructure\ProdutosRepository;
 use src\Infrastructure\UsuariosRepository;
+use src\Models\Produtos;
 
 $db = Database::getInstance();
 
@@ -36,6 +37,10 @@ $total_compras_cliente = count($compras_do_cliente);
 $clientes_lista = $lista_clientes;
 $total_de_clientes = count($lista_clientes);
 
+$produtoDevEvolution = $produtosRepository->buscarPorId(1);
+
+$produtoOpaEvolution = $produtosRepository->buscarPorId(2);
+
 unset($total_produtos_cliente);
 unset($total_compras_cliente);
 ?>
@@ -57,6 +62,42 @@ unset($total_compras_cliente);
         <a href="/logout">Logout</a>
     </div>
 
+    <div>
+        <h1>Produtos disponíveis</h1>
+
+        <div class="produtos-disponiveis-container">
+            <h2>
+                Ingresso Curso DEV Evolution
+                <div class="estoque-disponivel">
+                    Disponível:
+                    <?php
+                    if ($produtoDevEvolution && isset($produtoDevEvolution['quantidade'])) {
+                        echo htmlspecialchars($produtoDevEvolution['quantidade']);
+                    } else {
+                        echo 'N/A';
+                    }
+                    ?>
+                    Ingressos
+                </div>
+            </h2>
+
+            <h2>
+                Ingresso Evento Opa Evolution
+                <div class="estoque-disponivel">
+                    Disponível:
+                    <?php
+                    if ($produtoOpaEvolution && isset($produtoOpaEvolution['quantidade'])) {
+                        echo htmlspecialchars($produtoOpaEvolution['quantidade']);
+                    } else {
+                        echo 'N/A';
+                    }
+                    ?>
+                    Ingressos
+                </div>
+            </h2>
+        </div>
+    </div>
+
     <?php if (empty($lista_clientes)): ?>
         <p>Nenhum cliente cadastrado no sistema.</p>
     <?php else: ?>
@@ -65,6 +106,7 @@ unset($total_compras_cliente);
             $id_cliente_atual = $cliente['id'] ?? 0;
 
             $produtos_do_cliente_atual = $produtosRepository->buscarPorClienteId($id_cliente_atual);
+
             $compras_do_cliente_atual = $comprasRepository->buscarPorClienteId($id_cliente_atual);
             ?>
 
@@ -78,7 +120,7 @@ unset($total_compras_cliente);
                     <p>Email: <?= htmlspecialchars($cliente['email']) ?></p>
                     <p>Telefone: <?= htmlspecialchars($cliente['telefone'] ?? 'N/A') ?></p>
 
-                    <h4>Produtos Cadastrados</h4>
+                    <!--  <h4>Produtos Cadastrados</h4>
                     <?php if (empty($produtos_do_cliente_atual)): ?>
                         <p>Nenhum produto encontrado.</p>
                     <?php else: ?>
@@ -90,9 +132,9 @@ unset($total_compras_cliente);
                                 </li>
                             <?php endforeach; ?>
                         </ul>
-                    <?php endif; ?>
+                    <?php endif; ?> -->
 
-                    <h4>Histórico de Compras</h4>
+                    <h4>Produtos no Carrinho</h4>
                     <?php if (empty($compras_do_cliente_atual)): ?>
                         <p>Nenhuma compra registrada.</p>
                     <?php else: ?>

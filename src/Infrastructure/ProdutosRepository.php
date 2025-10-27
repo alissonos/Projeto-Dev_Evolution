@@ -65,7 +65,7 @@ class ProdutosRepository
         return $produtos;
     }
 
-     public function buscarPrecoPorId(int $produtoId): ?float
+    public function buscarPrecoPorId(int $produtoId): ?float
     {
         $sql = 'SELECT preco FROM produtos WHERE id = :id';
         $stmt = $this->pdo->prepare($sql);
