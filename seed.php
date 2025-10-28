@@ -47,7 +47,7 @@ try {
         $id_usuario = $usuarioExistente['id'];
         echo "Usuário '{$email}' já existe (ID: {$id_usuario}). Reutilizando para FKs.\n";
     } else {
-        if ($usuarioRepo->inserir($dados_usuario)) {
+        if ($usuarioRepo->inserir($usuario)) {
             $id_usuario = $db->lastInsertId();
             echo "✅ Usuário Admin inserido com sucesso! (ID: {$id_usuario})\n";
         } else {

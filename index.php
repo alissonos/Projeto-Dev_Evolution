@@ -31,9 +31,15 @@ if ($path === '/' || $path === '/index.php') {
         $controller = new DashboardController();
         $controller->index();
     }
+} elseif ($path === '/signup' && $method === 'GET') {
+    $controller = new AuthController();
+    $controller->showSignup();
 } elseif ($path === '/logout' && $method === 'GET') {
     $controller = new AuthController();
     $controller->logout();
+} elseif ($path === '/login' && $method === 'GET') {
+    $controller = new AuthController();
+    $controller->showLogin();
 } else {
     http_response_code(404);
     echo '<h1>404 - Página não encontrada.</h1>';

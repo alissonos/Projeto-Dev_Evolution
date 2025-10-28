@@ -2,8 +2,8 @@
 
 namespace src\Infrastructure;
 
-use src\Infrastructure\Database;
 use PDO;
+use src\Models\Usuarios;
 
 class UsuariosRepository
 {
@@ -14,7 +14,7 @@ class UsuariosRepository
         $this->pdo = $pdo;
     }
 
-    public function inserir(array $dados): bool
+    public function inserir(Usuarios $usuario): bool
     {
         $sql = 'INSERT INTO usuarios (username, email, password, fullName) 
             VALUES (:username, :email, :password, :fullName)';
@@ -22,10 +22,10 @@ class UsuariosRepository
         $stmt = $this->pdo->prepare($sql);
 
         return $stmt->execute([
-            ':username' => $dados['username'],
-            ':password' => $dados['password'],
-            ':email' => $dados['email'],
-            ':fullName' => $dados['fullName']
+            ':username' => $usuario->getUsername(),
+            ':password' => $usuario->getPassword(),
+            ':email' => $usuario->getEmail(),
+            ':fullName' => $usuario->getfullName()
         ]);
     }
 
@@ -39,7 +39,7 @@ class UsuariosRepository
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function buscarPorId(int $id_usuario): ?array
+    public function buscarPorId(int $id): ?array
     {
         $sql = 'SELECT id, username, email, fullName
                 FROM usuarios 

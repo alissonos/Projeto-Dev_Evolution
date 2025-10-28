@@ -17,9 +17,14 @@ class AuthController
         $this->userRepository = new UsuariosRepository($db);
     }
 
-    public function showLogin(?string $error = null): void
+    public function showLogin(): void
     {
         require_once dirname(__DIR__) . '/Views/Login.php';
+    }
+
+    public function showSignup(): void
+    {
+        require_once dirname(__DIR__) . '/Views/Signup.php';
     }
 
     public function login(): void

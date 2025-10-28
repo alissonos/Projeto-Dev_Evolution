@@ -13,8 +13,6 @@ use src\Infrastructure\ClientesRepository;
 use src\Infrastructure\ComprasRepository;
 use src\Infrastructure\Database;
 use src\Infrastructure\ProdutosRepository;
-use src\Infrastructure\UsuariosRepository;
-use src\Models\Produtos;
 
 $db = Database::getInstance();
 
@@ -32,14 +30,33 @@ $produtos_do_cliente = $produtosRepository->buscarPorClienteId($cliente_id);
 $comprasRepository = new ComprasRepository($db);
 $compras_do_cliente = $comprasRepository->buscarPorClienteId($cliente_id);
 
+$compras_cliente_logado = $comprasRepository->buscarPorClienteId($cliente_id);
+
+$compras_por_produto = [];
+foreach ($compras_cliente_logado as $compra) {
+    $produtoId = $compra['produtoId'];
+    $quantidadeComprada = $compra['quantidadeComprada'];
+
+    $compras_por_produto[$produtoId] = ($compras_por_produto[$produtoId] ?? 0) + $quantidadeComprada;
+}
+
 $total_produtos_cliente = count($produtos_do_cliente);
 $total_compras_cliente = count($compras_do_cliente);
 $clientes_lista = $lista_clientes;
 $total_de_clientes = count($lista_clientes);
 
 $produtoDevEvolution = $produtosRepository->buscarPorId(1);
-
 $produtoOpaEvolution = $produtosRepository->buscarPorId(2);
+
+$quantidadeCompradaDev = $compras_por_produto[1] ?? 0;
+if ($produtoDevEvolution && isset($produtoDevEvolution['quantidade'])) {
+    $produtoDevEvolution['quantidade'] -= $quantidadeCompradaDev;
+}
+
+$quantidadeCompradaOpa = $compras_por_produto[2] ?? 0;
+if ($produtoOpaEvolution && isset($produtoOpaEvolution['quantidade'])) {
+    $produtoOpaEvolution['quantidade'] -= $quantidadeCompradaOpa;
+}
 
 unset($total_produtos_cliente);
 unset($total_compras_cliente);

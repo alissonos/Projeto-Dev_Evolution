@@ -21,8 +21,11 @@
                 <label for="password">Senha:</label>
                 <input type="password" id="password" name="password" required placeholder="Digite sua senha">
             </div>
-
             <button type="submit">Entrar</button>
+            <div class="signup-link">
+                Não tem uma conta? Cadastre aqui
+                <a href="/signup">Criar conta</a>
+            </div>
         </form>
     </div>
 </body>
