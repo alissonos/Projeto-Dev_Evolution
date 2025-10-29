@@ -28,7 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $senha_criptografada = password_hash($dados_usuario['password'], PASSWORD_DEFAULT);
 
-        $usuario = new Usuarios();
+        $usuario = new Usuarios(
+            $dados_usuario['username'],
+            $dados_usuario['email'],
+            $senha_criptografada,
+            $dados_usuario['fullName']
+        );
         $usuario->setUsername($dados_usuario['username']);
         $usuario->setEmail($dados_usuario['email']);
         $usuario->setPassword($senha_criptografada);

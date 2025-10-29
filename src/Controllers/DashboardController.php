@@ -35,10 +35,29 @@ class DashboardController
 
     public function index()
     {
-        // $clientes = $this->clientesRepo->findAll();
-        // $produtos = $this->produtosRepo->findAll();
-        // $compras = $this->comprasRepo->findAll();
-        $usuarios = $this->usuariosRepo->findAll();
+
+        $usuarioId = $_SESSION['id_usuario'] ?? null;
+        $produtos = [];
+        $nome_usuario = $_SESSION['nome'] ?? 'Usuário';
+
+        if (!$usuarioId) {
+            header('Location: /');
+            exit;
+        }
+
+        $cliente = $this->clientesRepo->buscarUsuarioPorId($usuarioId);
+
+        if (is_array($cliente) && isset($cliente['id'])) {
+
+            // Linha 57 corrigida: Acessamos 'id' com segurança.
+            $clienteId = $cliente['id'];
+            $nome_usuario = $cliente['nome']; // O nome do cliente é Artur (que possui os produtos)
+
+            // Linha 60 corrigida: Chamada segura.
+            // Se este for o método que você implementou, certifique-se que o nome do método 
+            // no Controller e no Repositório coincidem (buscarPorClienteId/findByClienteId).
+            $produtos = $this->produtosRepo->buscarPorClienteId($clienteId);
+        }
 
         require_once dirname(__DIR__, 2) . '/src/Views/Dashboard.php';
     }

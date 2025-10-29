@@ -1,45 +1,66 @@
 <?php
 
-class Compras {
+class Compras
+{
     private $id;
+    private $nomeComprador;
     private $clienteId;
     private $produtoId;
     private $quantidade;
     private $dataCompra;
 
-    public function getId () {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getClienteId () {
+    public function getNomeComprador()
+    {
+        return $this->nomeComprador;
+    }
+
+    public function setNomeComprador($nomeComprador)
+    {
+        $this->nomeComprador = $nomeComprador;
+    }
+
+    public function getClienteId()
+    {
         return $this->clienteId;
     }
 
-    public function setClienteId ($clienteId) {
+    public function setClienteId($clienteId)
+    {
         $this->clienteId = $clienteId;
     }
 
-    public function getProdutoId () {
+    public function getProdutoId()
+    {
         return $this->produtoId;
     }
 
-    public function setProdutoId ($produtoId) {
+    public function setProdutoId($produtoId)
+    {
         $this->produtoId = $produtoId;
     }
-    
-    public function getQuantidade () {
+
+    public function getQuantidade()
+    {
         return $this->quantidade;
     }
-    
-    public function setQuantidade ($quantidade) {
+
+    public function setQuantidade($quantidade)
+    {
         $this->quantidade = $quantidade;
     }
 
-    public function getDataCompra () {
+    public function getDataCompra()
+    {
         return $this->dataCompra;
     }
 
-    public function setDataCompra ($dataCompra) {
+    public function setDataCompra($dataCompra)
+    {
         $this->dataCompra = $dataCompra;
     }
 }

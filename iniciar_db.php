@@ -41,12 +41,10 @@ try {
     $sqlCreateProdutos = '
         CREATE TABLE IF NOT EXISTS produtos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            clienteId INTEGER NOT NULL, 
             nome TEXT NOT NULL,
             descricao TEXT,
             preco REAL NOT NULL,
-            quantidade INTEGER NOT NULL,
-            FOREIGN KEY (clienteId) REFERENCES clientes(id)
+            quantidade INTEGER NOT NULL
         );
     ';
 

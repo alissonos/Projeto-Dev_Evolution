@@ -10,6 +10,14 @@ class Usuarios
     private $password;
     private $fullName;
 
+    public function __construct(string $username, string $email, string $password, string $fullName)
+    {
+        $this->username = $username;
+        $this->email = $email;
+        $this->password = $password;
+        $this->fullName = $fullName;
+    }
+
     public function getId()
     {
         return $this->id;

@@ -55,6 +55,19 @@ class ClientesRepository
         return $cliente ?: null;
     }
 
+    public function buscarUsuarioPorId(int $usuarioId): ?array
+    {
+        $sql = 'SELECT id AS clienteId, usuarioId, nome, email, telefone, endereco
+                FROM clientes 
+                WHERE usuarioId = :usuarioId';
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':usuarioId' => $usuarioId]);
+
+        $cliente = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $cliente ?: null;
+    }
+
     public function atualizar(int $id, array $dados): bool
     {
         $sql = 'UPDATE clientes 

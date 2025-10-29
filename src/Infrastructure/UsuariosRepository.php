@@ -95,7 +95,7 @@ class UsuariosRepository
             return false;
         }
 
-        if ($password === $usuario['password']) {
+        if (password_verify($password, $usuario['password'])) {
             unset($usuario['password']);
 
             return $usuario;

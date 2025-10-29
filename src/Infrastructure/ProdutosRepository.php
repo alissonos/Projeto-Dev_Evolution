@@ -16,13 +16,12 @@ class ProdutosRepository
 
     public function inserir(array $dados): bool
     {
-        $sql = 'INSERT INTO produtos (clienteId, nome, descricao, preco, quantidade) 
-            VALUES (:clienteId, :nome, :descricao, :preco, :quantidade)';
+        $sql = 'INSERT INTO produtos (nome, descricao, preco, quantidade) 
+            VALUES (:nome, :descricao, :preco, :quantidade)';
 
         $stmt = $this->pdo->prepare($sql);
 
         return $stmt->execute([
-            ':clienteId' => $dados['clienteId'],
             ':nome' => $dados['nome'],
             ':descricao' => $dados['descricao'] ?? null,
             ':preco' => $dados['preco'],
@@ -32,7 +31,7 @@ class ProdutosRepository
 
     public function listar(): array
     {
-        $sql = 'SELECT id, nome, descricao, preco, quantidade, data_cadastro 
+        $sql = 'SELECT id, nome, descricao, preco, quantidade
                 FROM produtos ORDER BY id';
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll();
@@ -40,7 +39,7 @@ class ProdutosRepository
 
     public function buscarPorId(int $id): ?array
     {
-        $sql = 'SELECT id AS produtoId, clienteId, nome, descricao, preco, quantidade
+        $sql = 'SELECT id AS produtoId, nome, descricao, preco, quantidade
              FROM produtos 
              WHERE id = :id';
 
@@ -52,18 +51,18 @@ class ProdutosRepository
         return $produto ?: null;
     }
 
-    public function buscarPorClienteId(int $clienteId): array
-    {
-        $sql = 'SELECT id AS produtoId, clienteId, nome, descricao, preco, quantidade
-            FROM produtos 
-            WHERE clienteId = :clienteId';
+    // public function buscarPorClienteId(int $clienteId): array
+    // {
+    //     $sql = 'SELECT id AS produtoId, clienteId, nome, descricao, preco, quantidade
+    //         FROM produtos 
+    //         WHERE clienteId = :clienteId';
 
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([':clienteId' => $clienteId]);
-        $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    //     $stmt = $this->pdo->prepare($sql);
+    //     $stmt->execute([':clienteId' => $clienteId]);
+    //     $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        return $produtos;
-    }
+    //     return $produtos;
+    // }
 
     public function buscarPrecoPorId(int $produtoId): ?float
     {

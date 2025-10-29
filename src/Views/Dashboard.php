@@ -25,7 +25,7 @@ $total_clientes = $clientesRepository->contarTodos();
 $lista_clientes = $clientesRepository->buscarTodos();
 
 $produtosRepository = new ProdutosRepository($db);
-$produtos_do_cliente = $produtosRepository->buscarPorClienteId($cliente_id);
+//$produtos_do_cliente = $produtosRepository->buscarPorClienteId($cliente_id);
 
 $comprasRepository = new ComprasRepository($db);
 $compras_do_cliente = $comprasRepository->buscarPorClienteId($cliente_id);
@@ -33,6 +33,7 @@ $compras_do_cliente = $comprasRepository->buscarPorClienteId($cliente_id);
 $compras_cliente_logado = $comprasRepository->buscarPorClienteId($cliente_id);
 
 $compras_por_produto = [];
+
 foreach ($compras_cliente_logado as $compra) {
     $produtoId = $compra['produtoId'];
     $quantidadeComprada = $compra['quantidadeComprada'];
@@ -40,7 +41,7 @@ foreach ($compras_cliente_logado as $compra) {
     $compras_por_produto[$produtoId] = ($compras_por_produto[$produtoId] ?? 0) + $quantidadeComprada;
 }
 
-$total_produtos_cliente = count($produtos_do_cliente);
+//$total_produtos_cliente = count($produtos_do_cliente);
 $total_compras_cliente = count($compras_do_cliente);
 $clientes_lista = $lista_clientes;
 $total_de_clientes = count($lista_clientes);
@@ -57,6 +58,8 @@ $quantidadeCompradaOpa = $compras_por_produto[2] ?? 0;
 if ($produtoOpaEvolution && isset($produtoOpaEvolution['quantidade'])) {
     $produtoOpaEvolution['quantidade'] -= $quantidadeCompradaOpa;
 }
+
+$produtosDisponiveis = $produtosRepository->listar();
 
 unset($total_produtos_cliente);
 unset($total_compras_cliente);
@@ -80,7 +83,9 @@ unset($total_compras_cliente);
     </div>
 
     <div>
-        <h1>Produtos disponíveis</h1>
+        <div class="header-produtos">
+            <h1>Produtos disponíveis</h1>
+        </div>
 
         <div class="produtos-disponiveis-container">
             <h2>
@@ -115,14 +120,67 @@ unset($total_compras_cliente);
         </div>
     </div>
 
+    <div class="box-compra">
+        <h2>Realizar Compra</h2>
+
+        <form action="/comprar" method="POST">
+
+            <div class="form-group">
+                <label for="cliente_nome">Comprador:</label>
+                <input type="name" id="name" name="name" required placeholder="Digite seu nome completo">
+
+                <input type="hidden" name="cliente_id" value="<?= htmlspecialchars($cliente_id ?? '') ?>">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required placeholder="seu@email.com">
+            </div>
+            <div class="form-group">
+                <label for="produto_id">Escolha o seu produto:</label>
+                <select id="produto_id" name="produto_id" required>
+                    <option value="">-- Selecione --</option>
+
+                    <?php
+                    // Usa a variável $produtosDisponiveis que você carregou
+                    if (!empty($produtosDisponiveis) && is_array($produtosDisponiveis)):
+                        foreach ($produtosDisponiveis as $produto):
+                    ?>
+                            <option value="<?= htmlspecialchars($produto['id']); ?>">
+                                <?= htmlspecialchars($produto['nome']); ?>
+                                <?= "(Estoque: " . htmlspecialchars($produto['quantidade']) . ")"; ?>
+                            </option>
+                    <?php
+                        endforeach;
+                    endif;
+                    ?>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="quantidade">Quantidade a Comprar:</label>
+                <input type="number"
+                    id="quantidade"
+                    name="quantidade"
+                    min="1"
+                    value="1"
+                    required
+                    style="width: 100px;">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn-primary">Adicionar ao Carrinho</button>
+            </div>
+        </form>
+    </div>
+
     <?php if (empty($lista_clientes)): ?>
-        <p>Nenhum cliente cadastrado no sistema.</p>
+        <!-- <p>Nenhum cliente cadastrado no sistema.</p> -->
     <?php else: ?>
         <?php foreach ($lista_clientes as $cliente): ?>
             <?php
             $id_cliente_atual = $cliente['id'] ?? 0;
 
-            $produtos_do_cliente_atual = $produtosRepository->buscarPorClienteId($id_cliente_atual);
+            //$produtos_do_cliente_atual = $produtosRepository->buscarPorClienteId($id_cliente_atual);
 
             $compras_do_cliente_atual = $comprasRepository->buscarPorClienteId($id_cliente_atual);
             ?>
@@ -180,14 +238,13 @@ unset($total_compras_cliente);
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
+
+    <!-- /*Script para fazer o Wrap -->
     <script>
         function toggleCard(headerElement) {
-            // Encontra o elemento .card-content que é irmão do header clicado
             const content = headerElement.nextElementSibling;
 
-            // Verifica se é o elemento correto antes de tentar manipular
             if (content && content.classList.contains('card-content')) {
-                // Alterna a classe 'hidden'
                 content.classList.toggle('hidden');
             }
         }
