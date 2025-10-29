@@ -19,12 +19,12 @@ class AuthController
 
     public function showLogin(): void
     {
-        require_once dirname(__DIR__) . '/Views/Login.php';
+        require_once dirname(__DIR__) . '/Views/login.php';
     }
 
     public function showSignup(): void
     {
-        require_once dirname(__DIR__) . '/Views/Signup.php';
+        require_once dirname(__DIR__) . '/Views/signup.php';
     }
 
     public function login(): void

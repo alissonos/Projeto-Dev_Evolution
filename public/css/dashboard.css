@@ -248,9 +248,9 @@ p {
 /* 2. Estilo para cada grupo de label e input */
 .form-group {
   margin-bottom: 15px;
-  display: flex; /* Flexbox para alinhar label e input na mesma linha */
-  align-items: center; /* Centraliza verticalmente */
-  gap: 15px; /* Espaçamento entre os elementos */
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .form-group label {
@@ -262,10 +262,12 @@ p {
 
 /* 3. Estilo para Inputs e Selects */
 .form-group input[type='text'],
+.form-group input[type='name']
 .form-group input[type='number'],
 .form-group select {
-  flex: 1; /* Permite que o campo ocupe o espaço restante */
-  max-width: 300px; /* Limita a largura máxima dos campos de seleção */
+  flex: 1;
+  width: 300px;
+  max-width: 300px; 
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;

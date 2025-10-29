@@ -49,13 +49,9 @@ class DashboardController
 
         if (is_array($cliente) && isset($cliente['id'])) {
 
-            // Linha 57 corrigida: Acessamos 'id' com segurança.
             $clienteId = $cliente['id'];
-            $nome_usuario = $cliente['nome']; // O nome do cliente é Artur (que possui os produtos)
+            $nome_usuario = $cliente['nome']; 
 
-            // Linha 60 corrigida: Chamada segura.
-            // Se este for o método que você implementou, certifique-se que o nome do método 
-            // no Controller e no Repositório coincidem (buscarPorClienteId/findByClienteId).
             $produtos = $this->produtosRepo->buscarPorClienteId($clienteId);
         }
 

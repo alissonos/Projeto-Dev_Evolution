@@ -141,13 +141,11 @@ unset($total_compras_cliente);
                     <option value="">-- Selecione --</option>
 
                     <?php
-                    // Usa a variável $produtosDisponiveis que você carregou
                     if (!empty($produtosDisponiveis) && is_array($produtosDisponiveis)):
                         foreach ($produtosDisponiveis as $produto):
                     ?>
                             <option value="<?= htmlspecialchars($produto['id']); ?>">
                                 <?= htmlspecialchars($produto['nome']); ?>
-                                <?= "(Estoque: " . htmlspecialchars($produto['quantidade']) . ")"; ?>
                             </option>
                     <?php
                         endforeach;
