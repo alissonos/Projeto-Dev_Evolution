@@ -9,45 +9,39 @@
 
 <body>
     <main class="main-content">
-        <header class="main-header">
-            Bem-vindo à área de Cadastro de Clientes.
-        </header>
         <div class="cadastro-container">
-            <h2>Formulário de Cadastro de Cliente</h2>
+            <h2>Formulário de Cadastro de Produto</h2>
 
             <form action="/cliente/cadastro" method="POST">
 
                 <div class="form-group">
-                    <label for="nome">Nome Completo:</label>
+                    <label for="nome">Produto:</label>
                     <input type="text" id="nome" name="nome" required
                         placeholder="Digite o nome completo do cliente">
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email:</label>
+                    <label for="text">Descreva o produto:</label>
                     <input type="email" id="email" name="email" required
-                        placeholder="cliente@exemplo.com">
+                        placeholder="Descreva sobre o seu produto">
                 </div>
 
                 <div class="form-group">
-                    <label for="telefone">Telefone (Opcional):</label>
-                    <!-- Adicione o type="tel" para melhor acessibilidade e validação em mobile -->
-                    <input type="tel" id="telefone" name="telefone"
-                        placeholder="(99) 99999-9999">
+                    <label for="preco">Preço:</label>
+                    <input type="price" id="telefone" name="telefone"
+                        placeholder="R$">
                 </div>
 
                 <div class="form-group">
-                    <label for="endereco">Endereço (Opcional):</label>
-                    <textarea id="endereco" name="endereco" rows="3"
-                        placeholder="Rua, número, bairro e cidade."></textarea>
+                    <label for="quantidade">Quantidade:</label>
+                    <input type="number" id="quantidade" name="quantidade" placeholder="Mínimo uma quantidade" min="1" value="1">
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn-primary">Cadastrar Cliente</button>
+                    <button type="submit" class="btn-primary">Cadastrar Produto</button>
                 </div>
             </form>
         </div>
     </main>
 </body>
-
 </html>

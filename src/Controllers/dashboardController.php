@@ -75,11 +75,8 @@ class DashboardController
             $produtoOpaEvolution['quantidade'] -= $quantidadeCompradaOpa;
         }
 
-        // 4. Buscar e Processar Lista de Clientes (para o relatório/listagem)
         $lista_clientes = $this->clientesRepo->buscarTodos();
 
-        // **Melhoria MVC:** Pré-carregar as compras de TODOS os clientes.
-        // Isso evita que o banco de dados seja acessado dentro do loop da View.
         $compras_por_cliente_id = [];
         foreach ($lista_clientes as $cliente) {
             $id_cliente_atual = $cliente['id'] ?? 0;
@@ -87,8 +84,6 @@ class DashboardController
         }
 
 
-        // 5. Array de Dados (ViewModel)
-        // Crie um array para passar todos os dados necessários para a View.
         $dados = [
             'nome_usuario' => $nome_usuario,
             'cliente_id' => $cliente_id,
@@ -96,13 +91,10 @@ class DashboardController
             'produtoOpaEvolution' => $produtoOpaEvolution,
             'produtosDisponiveis' => $produtosDisponiveis,
             'lista_clientes' => $lista_clientes,
-            'compras_por_cliente_id' => $compras_por_cliente_id, // Passa as compras pré-carregadas
-            // O repositório de compras também é necessário se a view ainda o chamar
-            'comprasRepository' => $this->comprasRepo // Mantido, mas deve ser removido após o ajuste da View.
+            'compras_por_cliente_id' => $compras_por_cliente_id,
+            'comprasRepository' => $this->comprasRepo
         ];
 
-        // 6. Incluir a View (Passando os dados)
-        // A View agora usará as variáveis que serão extraídas do array $dados.
-        require_once dirname(__DIR__, 2) . '/src/Views/Dashboard.php';
+        require_once dirname(__DIR__, 2) . '/src/Views/dashboard.php';
     }
 }

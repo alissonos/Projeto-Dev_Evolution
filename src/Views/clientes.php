@@ -9,9 +9,6 @@
 
 <body>
     <main class="main-content">
-        <header class="main-header">
-            Bem-vindo à área de Cadastro de Clientes.
-        </header>
         <div class="cadastro-container">
             <h2>Formulário de Cadastro de Cliente</h2>
 
