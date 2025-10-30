@@ -1,251 +1,218 @@
-/* Paleta de Cores Sugerida (Inspirada em "Evolution" ou Dev/Tech)
-   --primary-color: #007bff; (Azul para links e botões)
-   --accent-color: #28a745; (Verde para sucesso/confirmação)
-   --background-light: #f4f7f9;
-   --card-bg: #ffffff;
-   --text-dark: #343a40;
-   --border-light: #e9ecef;
-*/
+/* ==================================== */
+/* 0. Paleta de Cores e Reset Básico    */
+/* ==================================== */
+
+:root {
+  --primary-color: #007bff; /* Azul vibrante (Destaque, links) */
+  --accent-color: #28a745; /* Verde (Sucesso, botões primários) */
+  --background-light: #f4f7f9; /* Fundo geral da dashboard */
+  --card-bg: #ffffff; /* Fundo de cards e conteúdo principal */
+  --text-dark: #343a40; /* Cor principal do texto */
+  --border-light: #e9ecef; /* Borda sutil */
+  --sidebar-bg: #343a40; /* Fundo do menu lateral */
+  --sidebar-text: #e9ecef; /* Cor do texto no menu */
+  --sidebar-hover-bg: rgba(0, 123, 255, 0.15); /* Fundo sutil no hover */
+  --logout-color: #ffc107; /* Amarelo para Sair */
+}
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f7f9; /* Fundo suave */
-  color: #343a40; /* Cor principal do texto */
+  background-color: var(--background-light);
+  color: var(--text-dark);
   margin: 0;
-  padding: 20px;
+  padding: 0;
   line-height: 1.6;
 }
 
-/* --- Layout e Container --- */
+/* ------------------------------------ */
+/* 1. Layout de Duas Colunas (Grid)     */
+/* ------------------------------------ */
 
-.header-container {
+.app-layout {
+  display: grid;
+  /* Sidebar fixa de 250px e o conteúdo que ocupa o restante */
+  grid-template-columns: 250px 1fr;
+  min-height: 100vh;
+}
+
+/* ------------------------------------ */
+/* 2. Sidebar (Menu Lateral)            */
+/* ------------------------------------ */
+
+.sidebar {
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text);
   display: flex;
-  justify-content: space-between;
-  background-color: #ffffff;
-  padding: 20px 30px;
-  border-bottom: 3px solid #007bff; /* Linha primária */
-  margin: -20px -20px 20px -20px; /* Estende a largura */
+  flex-direction: column;
+  padding: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  border: none;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 25px 0;
+  color: var(--primary-color);
+  border-bottom: 2px solid rgba(0, 123, 255, 0.3);
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+}
+
+.sidebar-nav li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--sidebar-text);
+  padding: 12px 20px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.sidebar-nav li a:hover {
+  background-color: var(--sidebar-hover-bg);
+  color: var(--primary-color);
+}
+
+/* Estilo para link ativo (se implementado com a classe 'active') */
+.sidebar-nav li a.active {
+  background-color: var(--primary-color);
+  color: var(--card-bg);
+  font-weight: bold;
+  border-left: 5px solid var(--logout-color);
+  padding-left: 15px;
+}
+
+/* Separador visual */
+.sidebar-nav .separator {
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: 5px 20px;
+}
+
+/* Link Sair no final da barra lateral */
+.logout-link {
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #212529;
+}
+
+.logout-link a {
+  text-align: center;
+  color: var(--logout-color);
+  text-decoration: none;
+  display: block;
+  padding: 15px 20px;
+  font-weight: 600;
+}
+
+.logout-link a:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+/* ------------------------------------ */
+/* 3. Conteúdo Principal (Main)         */
+/* ------------------------------------ */
+
+.main-content {
+  padding: 0;
+}
+
+/* Cabeçalho de boas-vindas */
+.main-header {
+  background-color: var(--card-bg);
+  padding: 15px 30px;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 1.1em;
+  color: #495057;
+  margin-bottom: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.header-container h1 {
-  margin: 0;
-  font-size: 1.5rem;
-  color: #343a40;
+/* Espaçamento geral do corpo do dashboard */
+.dashboard-body {
+  padding: 0 30px 30px 30px;
 }
+
+/* ------------------------------------ */
+/* 4. Estilos de Componentes (Produtos) */
+/* ------------------------------------ */
 
 .header-produtos {
   background: #5a646c;
   color: white;
   text-align: center;
   padding: 30px 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .produtos-disponiveis-container {
   display: flex;
-  justify-content: center;
-  flex-direction: row;
-  max-width: 1000px;
-  margin: 0 auto;
-  height: 200px;
+  justify-content: space-between;
   gap: 20px;
-  padding-left: 0;
+  max-width: 100%;
+  margin-bottom: 30px;
 }
 
-.produtos-disponiveis-container h2 {
-  flex: 0 0 calc(50% - 10px);
+.produto-card {
+  flex: 1;
   text-align: center;
-  background-color: #ffffff;
-  padding: 80px 30px;
-  margin: 0;
-  font-size: 1.3rem;
-  color: #343a40;
-  border-radius: 6px;
+  background-color: var(--card-bg);
+  padding: 30px;
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.produtos-disponiveis-container h2:hover {
+.produto-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* --- Botão de Logout --- */
-
-a[href='/logout'] {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #007bff;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 5px 10px;
-  border: 1px solid #007bff;
-  border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-a[href='/logout']:hover {
-  background-color: #007bff;
-  color: #ffffff;
-}
-
-/* --- Título Principal da Lista --- */
-
-h1 {
-  color: #343a40;
-  padding-bottom: 10px;
-  margin-top: 30px;
-  font-size: 2rem;
-}
-
-/* --- Cards de Cliente --- */
-
-.cliente-card {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  margin: 30px 0;
-  border-left: 5px solid #28a745; /* Linha de destaque verde */
-}
-
-.cliente-card h3 {
-  margin-top: 0;
-  color: #007bff;
-  font-size: 1.4rem;
-  border-bottom: 1px dotted #e9ecef;
-  margin-bottom: 15px;
-}
-
-.cliente-card h4 {
-  color: #343a40;
-  margin-top: 20px;
+.produto-card strong {
+  display: block;
+  font-size: 1.5rem;
   margin-bottom: 10px;
-  font-size: 1.1rem;
+  color: var(--primary-color);
 }
 
-/* Estilos para o Acordeão (Collapse) */
+/* ------------------------------------ */
+/* 5. Estilos do Formulário de Compra   */
+/* ------------------------------------ */
 
-.card-header {
-  cursor: pointer; /* Indica que é clicável */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.card-header h3 {
-  margin: 0; /* Remove margem extra do h3 */
-  color: #007bff;
-  font-size: 1.4rem;
-  border-bottom: none; /* Remove a borda inferior que estava no h3 */
-}
-
-.card-content {
-  /* Transição suave para a abertura/fechamento (melhora a UX) */
-  transition: max-height 0.4s ease-out, opacity 0.4s ease-out,
-    padding 0.4s ease-out;
-  overflow: hidden; /* Importante para o efeito de colapso */
-  max-height: 1000px; /* Valor grande o suficiente para o conteúdo */
-  opacity: 1;
-  padding-top: 10px;
-}
-
-.card-content.hidden {
-  max-height: 0; /* Oculta o conteúdo */
-  opacity: 0;
-  padding-top: 0;
-}
-
-/* Ajuste o cliente-card para remover a linha de destaque que estava no h3 original */
-.cliente-card {
-  /* ... (seus estilos originais) ... */
-  border-left: 5px solid #28a745;
-}
-
-/* --- Lista de Produtos --- */
-
-ul {
-  list-style: disc;
-  padding-left: 20px;
-  margin-top: 0;
-}
-
-ul li {
-  margin-bottom: 5px;
-  color: #5a646c;
-}
-
-/* --- Tabela de Compras --- */
-
-table {
-  border-collapse: collapse; /* Remove espaços duplos na borda */
-  margin-top: 15px;
-  width: 100%;
-}
-
-table th,
-table td {
-  padding: 12px;
-  text-align: left;
-  border: 1px solid #e9ecef; /* Bordas suaves */
-}
-
-table thead tr {
-  background-color: #343a40; /* Cabeçalho escuro */
-  color: white;
-}
-
-table tbody tr:nth-child(even) {
-  background-color: #f8f8f8; /* Listras para melhor leitura */
-}
-
-/* Estilo para a linha divisória (hr) */
-.cliente-card hr {
-  border: 0;
-  border-top: 1px solid #e9ecef;
-  margin: 25px 0 0 0;
-}
-
-/* Mensagem de vazio */
-p {
-  color: #6c757d;
-}
-
-/*
- * --------------------------------
- * ESTILOS GERAIS DO FORMULÁRIO DE COMPRA
- * --------------------------------
- */
-
-/* 1. Contêiner principal para o formulário */
 .box-compra {
-  /* Alinha o contêiner com a largura dos produtos disponíveis */
   max-width: 100%;
-  margin: 20px auto;
-
-  background-color: #ffffff; /* Um cinza bem claro para destacar a seção */
+  margin: 0;
+  background-color: var(--card-bg);
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ddd;
+  border: none;
 }
 
-/* Título da seção (Realizar Nova Compra) */
 .box-compra h2 {
   color: #333;
   margin-top: 0;
   margin-bottom: 20px;
   font-size: 1.5em;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 2px solid var(--border-light);
   padding-bottom: 10px;
 }
 
-/* 2. Estilo para cada grupo de label e input */
 .form-group {
   margin-bottom: 15px;
   display: flex;
@@ -254,20 +221,19 @@ p {
 }
 
 .form-group label {
-  flex: 0 0 150px; /* Largura fixa para a label */
+  flex: 0 0 150px;
   font-weight: 600;
   color: #555;
   text-align: right;
 }
 
-/* 3. Estilo para Inputs e Selects */
 .form-group input[type='text'],
-.form-group input[type='name']
+.form-group input[type='name'],
 .form-group input[type='number'],
 .form-group select {
   flex: 1;
   width: 300px;
-  max-width: 300px; 
+  max-width: 300px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -275,23 +241,13 @@ p {
   font-size: 1em;
 }
 
-/* Ajuste para o input de Quantidade ser menor */
 .form-group input[name='quantidade'] {
   max-width: 80px;
   text-align: center;
 }
 
-/* Estilo para o campo desabilitado (Comprador) */
-.form-group input[disabled] {
-  background-color: #eee;
-  color: #333;
-  cursor: default;
-  border: 1px solid #ddd;
-}
-
-/* 4. Estilo do botão de Compra */
 .btn-primary {
-  background-color: #5cb85c; /* Verde padrão */
+  background-color: var(--accent-color);
   color: white;
   padding: 10px 15px;
   border: none;
@@ -300,11 +256,11 @@ p {
   font-size: 1em;
   font-weight: 600;
   transition: background-color 0.2s;
-  margin-left: 165px;
+  margin-left: 165px; /* Alinhamento do botão com os campos */
 }
 
 .btn-primary:hover {
-  background-color: #4cae4c;
+  background-color: #218838;
 }
 
 .form-group:last-child {

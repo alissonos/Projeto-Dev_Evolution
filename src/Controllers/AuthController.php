@@ -1,5 +1,7 @@
 <?php
 
+namespace src\Controllers;
+
 use src\Infrastructure\Database;
 use src\Infrastructure\UsuariosRepository;
 

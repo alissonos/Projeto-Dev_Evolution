@@ -1,0 +1,117 @@
+/*
+    ASSUMÇÕES DE VARIÁVEIS (Baseadas no seu CSS anterior):
+    --header-bg: #fff;       (Fundo do cabeçalho)
+    --main-bg: #f4f7f6;      (Fundo da área principal)
+    --card-bg: #fff;         (Fundo do card de cadastro)
+    --sidebar-bg: #2c3e50;   (Cor para títulos/detalhes Dark)
+    --primary-color: #27ae60; (Cor primária/destaque Green)
+*/
+
+.main-content {
+  flex-grow: 1; /* Ocupa o espaço restante ao lado da sidebar */
+  padding: 20px;
+  background-color: var(--main-bg, #f4f7f6); /* Fundo suave */
+}
+
+.main-header {
+  background-color: var(--header-bg, #fff);
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra leve */
+  margin-bottom: 20px;
+  font-weight: 500;
+  color: #555;
+}
+
+/* --- Mensagens de feedback (Sucesso/Erro) --- */
+
+.message {
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  font-weight: bold;
+  opacity: 0.95;
+}
+
+.message.success {
+  background-color: #d4edda; /* Verde claro */
+  color: #155724; /* Texto verde escuro */
+  border: 1px solid #c3e6cb;
+}
+
+.message.error {
+  background-color: #f8d7da; /* Vermelho claro */
+  color: #721c24; /* Texto vermelho escuro */
+  border: 1px solid #f5c6cb;
+}
+
+/* --- Contêiner e Título do Formulário --- */
+
+.cadastro-container {
+  background-color: var(--card-bg, #fff);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px; /* Limita a largura do formulário */
+  margin: 40px auto; /* Centraliza o card dentro da main-content */
+}
+
+.cadastro-container h2 {
+  color: var(--sidebar-bg, #2c3e50); /* Cor escura do título */
+  margin-top: 0;
+  border-bottom: 2px solid var(--primary-color, #27ae60); /* Linha de destaque */
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+/* --- Elementos do Formulário --- */
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-group input[type='text'],
+.form-group input[type='email'],
+.form-group input[type='tel'],
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--primary-color, #27ae60);
+  outline: none;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.btn-primary {
+  background-color: var(--primary-color, #27ae60);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-primary:hover {
+  background-color: #2ecc71;
+  transform: translateY(-1px);
+}

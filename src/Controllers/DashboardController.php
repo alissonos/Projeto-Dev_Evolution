@@ -17,7 +17,6 @@ class DashboardController
 
     public function __construct()
     {
-        // ... (Seu construtor permanece o mesmo) ...
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
@@ -45,22 +44,11 @@ class DashboardController
             exit;
         }
 
-        // 2. Buscar Cliente Logado
-        // Seu código original:
-        // $cliente = $this->clientesRepo->buscarUsuarioPorId($usuarioId); 
-
-        // Assumindo que o método correto para obter o ID do cliente é buscar
-        // o registro do cliente associado ao id_usuario logado:
         $cliente_logado = $this->clientesRepo->buscarPorId($usuarioId);
 
-        // **Ajuste Importante:** No seu código original, você usava: $id_usuario = $_SESSION['id_usuario'];
-        // e depois buscava o cliente por este ID. Vamos manter essa lógica.
         $cliente_id = $cliente_logado['id'] ?? 0;
         $nome_usuario = $cliente_logado['nome'] ?? $nome_usuario;
 
-        // 3. Buscar e Processar Dados de Estoque/Compras
-
-        // Produtos (Dev Evolution = ID 1, Opa Evolution = ID 2)
         $produtoDevEvolution = $this->produtosRepo->buscarPorId(1);
         $produtoOpaEvolution = $this->produtosRepo->buscarPorId(2);
         $produtosDisponiveis = $this->produtosRepo->listar();
