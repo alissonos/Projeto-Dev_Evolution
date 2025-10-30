@@ -1,70 +1,20 @@
 <?php
 
-if (!isset($_SESSION['id_usuario'])) {
-    header('Location: /login');
-    exit;
+/**
+ * src/Views/Dashboard.php
+ * * Esta view é incluída pelo DashboardController::index().
+ * O array $dados foi passado para este escopo.
+ */
+
+// 1. INJETAR OS DADOS DO CONTROLLER
+// Transforma as chaves do array $dados em variáveis locais (ex: $dados['nome_usuario'] vira $nome_usuario)
+extract($dados);
+
+// Opcional: Remove a variável do repositório, garantindo que não será usada acidentalmente.
+if (isset($comprasRepository)) {
+    unset($comprasRepository);
 }
-
-$id_usuario = $_SESSION['id_usuario'];
-$nome_usuario = $_SESSION['nome'];
-$email = $_SESSION['email'];
-
-use src\Infrastructure\ClientesRepository;
-use src\Infrastructure\ComprasRepository;
-use src\Infrastructure\Database;
-use src\Infrastructure\ProdutosRepository;
-
-$db = Database::getInstance();
-
-$clientesRepository = new ClientesRepository($db);
-$cliente_logado = $clientesRepository->buscarPorId($id_usuario);
-
-$cliente_id = $cliente_logado['id'] ?? 0;
-
-$total_clientes = $clientesRepository->contarTodos();
-$lista_clientes = $clientesRepository->buscarTodos();
-
-$produtosRepository = new ProdutosRepository($db);
-//$produtos_do_cliente = $produtosRepository->buscarPorClienteId($cliente_id);
-
-$comprasRepository = new ComprasRepository($db);
-$compras_do_cliente = $comprasRepository->buscarPorClienteId($cliente_id);
-
-$compras_cliente_logado = $comprasRepository->buscarPorClienteId($cliente_id);
-
-$compras_por_produto = [];
-
-foreach ($compras_cliente_logado as $compra) {
-    $produtoId = $compra['produtoId'];
-    $quantidadeComprada = $compra['quantidadeComprada'];
-
-    $compras_por_produto[$produtoId] = ($compras_por_produto[$produtoId] ?? 0) + $quantidadeComprada;
-}
-
-//$total_produtos_cliente = count($produtos_do_cliente);
-$total_compras_cliente = count($compras_do_cliente);
-$clientes_lista = $lista_clientes;
-$total_de_clientes = count($lista_clientes);
-
-$produtoDevEvolution = $produtosRepository->buscarPorId(1);
-$produtoOpaEvolution = $produtosRepository->buscarPorId(2);
-
-$quantidadeCompradaDev = $compras_por_produto[1] ?? 0;
-if ($produtoDevEvolution && isset($produtoDevEvolution['quantidade'])) {
-    $produtoDevEvolution['quantidade'] -= $quantidadeCompradaDev;
-}
-
-$quantidadeCompradaOpa = $compras_por_produto[2] ?? 0;
-if ($produtoOpaEvolution && isset($produtoOpaEvolution['quantidade'])) {
-    $produtoOpaEvolution['quantidade'] -= $quantidadeCompradaOpa;
-}
-
-$produtosDisponiveis = $produtosRepository->listar();
-
-unset($total_produtos_cliente);
-unset($total_compras_cliente);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -78,7 +28,7 @@ unset($total_compras_cliente);
 <body>
 
     <div class="header-container">
-        <h1>Bem-vindo, <?= htmlspecialchars($_SESSION['nome']) ?>, a sua Área de Ingressos</h1>
+        <h1>Bem-vindo, <?= htmlspecialchars($nome_usuario) ?>, a sua Área de Ingressos</h1>
         <a href="/logout">Logout</a>
     </div>
 
@@ -93,6 +43,7 @@ unset($total_compras_cliente);
                 <div class="estoque-disponivel">
                     Disponível:
                     <?php
+                    // Usa a variável $produtoDevEvolution, que é injetada via extract()
                     if ($produtoDevEvolution && isset($produtoDevEvolution['quantidade'])) {
                         echo htmlspecialchars($produtoDevEvolution['quantidade']);
                     } else {
@@ -108,6 +59,7 @@ unset($total_compras_cliente);
                 <div class="estoque-disponivel">
                     Disponível:
                     <?php
+                    // Usa a variável $produtoOpaEvolution, que é injetada via extract()
                     if ($produtoOpaEvolution && isset($produtoOpaEvolution['quantidade'])) {
                         echo htmlspecialchars($produtoOpaEvolution['quantidade']);
                     } else {
@@ -141,6 +93,7 @@ unset($total_compras_cliente);
                     <option value="">-- Selecione --</option>
 
                     <?php
+                    // Usa a variável $produtosDisponiveis, que é injetada via extract()
                     if (!empty($produtosDisponiveis) && is_array($produtosDisponiveis)):
                         foreach ($produtosDisponiveis as $produto):
                     ?>
@@ -171,16 +124,19 @@ unset($total_compras_cliente);
         </form>
     </div>
 
-    <?php if (empty($lista_clientes)): ?>
-        <!-- <p>Nenhum cliente cadastrado no sistema.</p> -->
+    <?php
+    // Usa a variável $lista_clientes, que é injetada via extract()
+    if (empty($lista_clientes)):
+    ?>
     <?php else: ?>
         <?php foreach ($lista_clientes as $cliente): ?>
             <?php
             $id_cliente_atual = $cliente['id'] ?? 0;
 
-            //$produtos_do_cliente_atual = $produtosRepository->buscarPorClienteId($id_cliente_atual);
-
-            $compras_do_cliente_atual = $comprasRepository->buscarPorClienteId($id_cliente_atual);
+            // 2. USO DE DADOS PRÉ-CARREGADOS (MELHORIA MVC)
+            // Usa o array $compras_por_cliente_id (pré-carregado no Controller)
+            // Removemos a chamada de banco de dados: $comprasRepository->buscarPorClienteId($id_cliente_atual);
+            $compras_do_cliente_atual = $compras_por_cliente_id[$id_cliente_atual] ?? [];
             ?>
 
             <div class="cliente-card">
@@ -192,20 +148,6 @@ unset($total_compras_cliente);
                 <div class="card-content hidden">
                     <p>Email: <?= htmlspecialchars($cliente['email']) ?></p>
                     <p>Telefone: <?= htmlspecialchars($cliente['telefone'] ?? 'N/A') ?></p>
-
-                    <!--  <h4>Produtos Cadastrados</h4>
-                    <?php if (empty($produtos_do_cliente_atual)): ?>
-                        <p>Nenhum produto encontrado.</p>
-                    <?php else: ?>
-                        <ul>
-                            <?php foreach ($produtos_do_cliente_atual as $produto): ?>
-                                <li>
-                                    <?= htmlspecialchars($produto['nome']) ?>(Preço: R$<?= number_format($produto['preco'], 2, ',', '.') ?> |
-                                    Qtd: <?= htmlspecialchars($produto['quantidade']) ?>)
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    <?php endif; ?> -->
 
                     <h4>Produtos no Carrinho</h4>
                     <?php if (empty($compras_do_cliente_atual)): ?>
@@ -237,7 +179,6 @@ unset($total_compras_cliente);
         <?php endforeach; ?>
     <?php endif; ?>
 
-    <!-- /*Script para fazer o Wrap -->
     <script>
         function toggleCard(headerElement) {
             const content = headerElement.nextElementSibling;

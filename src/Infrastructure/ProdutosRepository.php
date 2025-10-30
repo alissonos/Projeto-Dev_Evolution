@@ -51,18 +51,18 @@ class ProdutosRepository
         return $produto ?: null;
     }
 
-    // public function buscarPorClienteId(int $clienteId): array
-    // {
-    //     $sql = 'SELECT id AS produtoId, clienteId, nome, descricao, preco, quantidade
-    //         FROM produtos 
-    //         WHERE clienteId = :clienteId';
+    public function buscarPorClienteId(int $clienteId): array
+    {
+        $sql = 'SELECT id AS produtoId, clienteId, nome, descricao, preco, quantidade
+            FROM produtos 
+            WHERE clienteId = :clienteId';
 
-    //     $stmt = $this->pdo->prepare($sql);
-    //     $stmt->execute([':clienteId' => $clienteId]);
-    //     $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':clienteId' => $clienteId]);
+        $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    //     return $produtos;
-    // }
+        return $produtos;
+    }
 
     public function buscarPrecoPorId(int $produtoId): ?float
     {
