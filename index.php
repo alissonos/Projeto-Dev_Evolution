@@ -9,11 +9,14 @@ require_once __DIR__ . '/src/Controllers/authController.php';
 require_once __DIR__ . '/src/Controllers/dashboardController.php';
 require_once __DIR__ . '/src/Controllers/comprasController.php';
 require_once __DIR__ . '/src/Controllers/clientesController.php';
+require_once __DIR__ . '/src/Controllers/produtosController.php';
+
 
 use src\Controllers\DashboardController;
 use src\Controllers\AuthController;
 use src\Controllers\ComprasController;
 use src\Controllers\ClientesController;
+use src\Controllers\ProdutosController;
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
@@ -37,6 +40,12 @@ if ($path === '/' || $path === '/index.php') {
 } elseif ($path === '/cliente/cadastro' && $method === 'POST') {
     $controller = new ClientesController();
     $controller->cadastrar();
+}elseif ($path === '/produto/cadastro' && $method === 'GET') {
+    $controller = new ProdutosController();
+    $controller->showProduto();
+} elseif ($path === '/produto/cadastro' && $method === 'POST') {
+    $controller = new ProdutosController();
+    $controller->cadastrar(); 
 } elseif ($path === '/compra' && $method === 'POST') {
     $controller = new ComprasController();
     $controller->estoque();

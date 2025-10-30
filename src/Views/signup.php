@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $sucesso = $usuarioRepository->inserir($usuario);
 
             if ($sucesso) {
-                header('Location: /Login.php');
+                header('Location: /login');
                 exit();
             } else {
                 $mensagem = 'Não foi possível cadastrar o usuário.';
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="login-container">
         <h1>Signup</h1>
-        <form method="POST" action="/src/Views/Signup.php">
+        <form method="POST" action="/src/Views/signup.php">
             <div class="form-group">
                 <label for="fullName">Nome completo:</label>
                 <input type="text" id="fullName" name="fullName" required placeholder="Nome completo">
