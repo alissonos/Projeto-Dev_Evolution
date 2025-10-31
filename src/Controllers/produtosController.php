@@ -4,10 +4,12 @@ namespace src\Controllers;
 
 use src\Infrastructure\Database;
 use src\Infrastructure\ProdutosRepository;
+use src\Infrastructure\ClientesRepository;
 
 class ProdutosController
 {
     private ClientesRepository $clientesRepo;
+    private ProdutosRepository $produtosRepo;
 
     public function __construct()
     {

@@ -27,8 +27,17 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="username">Login:</label>
+                    <input type="text" id="username" name="username" required placeholder="Seu login">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" name="password" required placeholder="Digite sua senha">
+                </div>
+
+                <div class="form-group">
                     <label for="telefone">Telefone (Opcional):</label>
-                    <!-- Adicione o type="tel" para melhor acessibilidade e validação em mobile -->
                     <input type="tel" id="telefone" name="telefone"
                         placeholder="(99) 99999-9999">
                 </div>

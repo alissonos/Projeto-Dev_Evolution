@@ -1,45 +1,77 @@
 <?php
 
-class Clientes {
+class Clientes
+{
     private $id;
-    private $nome;
+    private $nomeCompleto;
     private $email;
+    private $login;
+    private $senha;
     private $telefone;
     private $endereco;
 
-    public function getId () {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getNome () {
-        return $this->nome;
+    public function getnomeCompleto()
+    {
+        return $this->nomeCompleto;
     }
 
-    public function setNome ($nome) {
-        $this->nome = $nome;
+    public function setnomeCompleto($nomeCompleto)
+    {
+        $this->nomeCompleto = $nomeCompleto;
     }
 
-    public function getEmail () {
+    public function getEmail()
+    {
         return $this->email;
     }
 
-    public function setEmail ($email) {
+    public function setEmail($email)
+    {
         $this->email = $email;
     }
-    
-    public function getTelefone () {
+
+    public function getLogin()
+    {
+        return $this->login;
+    }
+
+    public function setLogin($login)
+    {
+        $this->login = $login;
+    }
+
+    public function getSenha()
+    {
+        return $this->senha;
+    }
+
+    public function setSenha($senha)
+    {
+        $this->senha = $senha;
+    }
+
+    public function getTelefone()
+    {
         return $this->telefone;
     }
-    
-    public function setTelefone ($telefone) {
+
+    public function setTelefone($telefone)
+    {
         $this->telefone = $telefone;
     }
 
-    public function getEndereco () {
+    public function getEndereco()
+    {
         return $this->endereco;
     }
 
-    public function setEndereco ($endereco) {
+    public function setEndereco($endereco)
+    {
         $this->endereco = $endereco;
     }
 }
